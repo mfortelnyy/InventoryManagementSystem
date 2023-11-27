@@ -1,0 +1,151 @@
+CREATE TABLE credentials(
+    username VARCHAR(50) PRIMARY KEY,
+    pswd VARCHAR(50) NOT NULL,
+    rol VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Customer (
+    customerID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    FOREIGN KEY (username) REFERENCES credentials(username) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE Supplier (
+    supplierID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    supplier_name VARCHAR(25) NOT NULL,
+    street_number INT NOT NULL,
+    street_name VARCHAR(25) NOT NULL,
+    city VARCHAR(25) NOT NULL,
+    state VARCHAR(2) NOT NULL,
+    zip VARCHAR(5) NOT NULL,
+    phone_number VARCHAR(10) NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    FOREIGN KEY (username) REFERENCES credentials(username) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Ordr (
+    orderID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    order_date DATE NOT NULL,
+    total_price DOUBLE PRECISION NOT NULL,
+    customerID INT NOT NULL,	
+    status VARCHAR(15),
+    FOREIGN KEY (customerID) REFERENCES Customer(customerID)
+);
+
+CREATE TABLE Category (
+    CategoryID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    CategoryName VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE Product (
+    productID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    product_name VARCHAR(20) NOT NULL,
+    quantity INT NOT NULL,
+    price DOUBLE PRECISION NOT NULL,
+    supplierID INT NOT NULL,
+    categoryID INT NOT NULL,
+    FOREIGN KEY (supplierID) REFERENCES Supplier(supplierID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (categoryID) REFERENCES Category(categoryID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+CREATE TABLE OrderDetail(
+    orderDetailID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    orderID INT NOT NULL,
+    productID INT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (orderID) REFERENCES Ordr(orderID) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (productID) REFERENCES Product(productID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO credentials(username, rol, pswd)
+VALUES ('aaabbb', 'aaabbb', 'customer');
+
+INSERT INTO credentials(username, rol, pswd)
+VALUES ('cccddd', 'cccddd', 'customer');
+
+INSERT INTO credentials(username, rol, pswd)
+VALUES ('eeefff', 'eeefff', 'customer');
+
+Insert into credentials (username, rol, pswd) 
+values ('admin', 'admin' ,'admin');
+
+Insert into credentials (username, rol, pswd) 
+values ('google', 'supplier','google');
+
+Insert into credentials (username, rol, pswd) 
+values ('tesla', 'supplier','tesla');
+
+Insert into credentials (username, rol, pswd) 
+values ('apple', 'supplier','apple');
+
+INSERT INTO customer(email, firstname, lastname, username)
+VALUES('aaabbb@gmail.com', 'AAA', 'BBB', 'aaabbb');
+
+INSERT INTO customer(email, firstname, lastname, username)
+VALUES('cccddd@gmail.com', 'CC', 'DDD', 'cccddd');
+
+INSERT INTO customer(email, firstname, lastname, username)
+VALUES('eeefff@gmail.com', 'EEE', 'FFF', 'eeefff');
+
+
+INSERT INTO supplier(supplier_name , street_number , street_name, city, state, zip, phone_number, username )
+VALUES('Google', 123, 'Google St', 'Chicago', 'IL', '60634', '3127894512', 'google');
+
+INSERT INTO supplier(supplier_name , street_number , street_name, city, state, zip, phone_number, username )
+VALUES('Tesla', 456, 'Tesla St', 'Kansas City', 'MO', '60416', '3127894512', 'tesla');
+
+INSERT INTO supplier(supplier_name , street_number , street_name, city, state, zip, phone_number, username )
+VALUES('Apple', 789, 'Apple St', 'Cupertino', 'CA', '94041', '7896541277', 'apple');
+
+INSERT INTO category(categoryname)
+VALUES('Electronics');
+
+INSERT INTO category(categoryname)
+VALUES('Cosmetics');
+
+INSERT INTO category(categoryname)
+VALUES('Furniture');
+
+INSERT INTO category(categoryname)
+VALUES('Automobile');
+
+INSERT INTO product(product_name, quantity, price, supplierID , categoryID)
+VALUES('iPhone 15', 1000, 1399.95, 3, 1);
+
+INSERT INTO product(product_name, quantity, price, supplierID , categoryID)
+VALUES('Model Y', 555, 46877.75, 2, 4);
+
+
+INSERT INTO product(product_name, quantity, price, supplierID , categoryID)
+VALUES('Pixel 8', 788, 855.15, 1, 1);
+
+INSERT INTO ordr(order_date, total_price, customerid)
+VALUES('11-07-2022', 2251.1, 1);
+
+INSERT INTO ordr(order_date, total_price, customerid)
+VALUES('12-05-2021', 49132.85, 2);
+
+INSERT INTO ordr(order_date, total_price, customerid)
+VALUES('11-22-2023', 468777.5, 3);
+
+INSERT INTO OrderDetail (orderID, productID, quantity)
+values (1, 1, 1);
+
+
+INSERT INTO OrderDetail (orderID, productID, quantity)
+values (1, 3, 1);
+
+INSERT INTO OrderDetail (orderID, productID, quantity)
+values (2, 1, 1);
+
+INSERT INTO OrderDetail (orderID, productID, quantity)
+values (2, 2, 1);
+
+INSERT INTO OrderDetail (orderID, productID, quantity)
+values (2, 3, 1);
+
+INSERT INTO OrderDetail (orderID, productID, quantity)
+values (3, 2, 10);
