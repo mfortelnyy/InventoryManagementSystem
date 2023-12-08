@@ -475,18 +475,9 @@ public class JDBC {
 		
 		String queryCredentials = "DELETE FROM credentials WHERE username = ?";
 		String queryUser = "";
-		if (role.equalsIgnoreCase("supplier")) {
-			queryUser = "DELETE FROM supplier WHERE username = ?";
-		}
-		else if (role.equalsIgnoreCase("customer")) {
-			queryUser = "DELETE FROM customer WHERE username = ?";
-			
-		}
+		
 		try {
-		    ps = con.prepareStatement(queryUser);
-		    ps.setString(1, username);
-		    res = ps.executeUpdate();
-		    
+		   		    
 		    ps = con.prepareStatement(queryCredentials);
 		    ps.setString(1, username);
 		    res = ps.executeUpdate();
@@ -515,39 +506,71 @@ public class JDBC {
 	}
 	
 	
-	public static int updateSupplier(int id, String collumnName, String value) {
+	public static int updateSupplier(int id, String collumnName, String value, String uname) {
 		int res =0;
 		PreparedStatement ps = null ;
-		
-		String query = "Update supplier SET " + collumnName +" = '"+ value+ "' WHERE supplierid = ?";
-		System.out.println(query);
-		try {
-		    ps = con.prepareStatement(query);
-		    ps.setLong(1, id);
-		    res = ps.executeUpdate();
-		    
+		if(collumnName.contains("username")) {
+			String query = "Update credentials SET " + collumnName +" = '"+ value+ "' WHERE username = ?";
+			System.out.println(query);
+			try {
+			    ps = con.prepareStatement(query);
+			    ps.setString(1, uname);
+			    res = ps.executeUpdate();
+			    
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		else {			
+			String query = "Update supplier SET " + collumnName +" = '"+ value+ "' WHERE supplierid = ?";
+			System.out.println(query);
+			try {
+			    ps = con.prepareStatement(query);
+			    ps.setLong(1, id);
+			    res = ps.executeUpdate();
+			    
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			}
 		return res;
 	}
 	
 	
-	public static int updateCustomer(int id, String collumnName, String value) {
+	public static int updateCustomer(int id, String collumnName, String value, String uname) {
 		int res =0;
 		PreparedStatement ps = null ;
-		
-		String query = "Update customer SET " + collumnName +" = '"+ value+ "' WHERE supplierid = ?";
-		System.out.println(query);
-		try {
-		    ps = con.prepareStatement(query);
-		    ps.setLong(1, id);
-		    res = ps.executeUpdate();
-		    
+		//System.out.println("uname: "+ collumnName + collumnName == "username");
+		if(collumnName.contains("username")) {
+			String query = "Update credentials SET " + collumnName +" = '"+ value+ "' WHERE username = ?";
+			System.out.println(query);
+			try {
+			    ps = con.prepareStatement(query);
+			    ps.setString(1, uname);
+			    res = ps.executeUpdate();
+			    
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
-		catch (Exception e) {
-			e.printStackTrace();
+		
+		else {
+			String query = "Update customer SET " + collumnName +" = '"+ value+ "' WHERE customerid = ?";
+			System.out.println(query);
+			try {
+			    ps = con.prepareStatement(query);
+			    ps.setLong(1, id);
+			    res = ps.executeUpdate();
+			    
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return res;
 	}

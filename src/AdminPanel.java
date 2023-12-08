@@ -461,9 +461,9 @@ public class AdminPanel extends JPanel {
     	                    if (row >= 0 && column >= 0) {
     	                        String columnName = table.getColumnName(column);
     	                        int supplierid = (int) table.getValueAt(row, 0);
-    	                        //String uname = (String) table.getValueAt(row, 8);
+    	                        String uname = (String) table.getValueAt(row, 8);
     	                        String value = JOptionPane.showInputDialog("Enter value for " + columnName + ":");
-    	                        int res = JDBC.updateSupplier(supplierid, columnName, value);
+    	                        int res = JDBC.updateSupplier(supplierid, columnName, value, uname);
     	                        if(res > 0) {
 		                        	JOptionPane.showMessageDialog(null, "Supplier with id: " + supplierid +" successfully updated");
     	                        	editFrame.dispose();
@@ -552,9 +552,9 @@ public class AdminPanel extends JPanel {
     	                    if (row >= 0 && column >= 0) {
     	                        String columnName = table.getColumnName(column);
     	                        int customerid = (int) table.getValueAt(row, 0);
-    	                        //String uname = (String) table.getValueAt(row, 4);
+    	                        String uname = (String) table.getValueAt(row, 4);
     	                        String value = JOptionPane.showInputDialog("Enter value for " + columnName + ":");
-    	                        int res = JDBC.updateCustomer(customerid, columnName, value);
+    	                        int res = JDBC.updateCustomer(customerid, columnName, value,uname );
     	                        if(res > 0) {
 		                        	JOptionPane.showMessageDialog(null, "Customer with id: " + customerid +" successfully updated");
     	                        	editFrame.dispose();
